@@ -1,5 +1,21 @@
+
+import { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 const Cover = () => {
+  const image1 = "/image1.svg";
+const image2 = "/image2.svg";
+const image3 = "/image3.svg";
+const images = [image1, image2, image3]
+    const [currentImage, setCurrentImage] = useState(0)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImage((prev) => (prev + 1) % images.length)
+        }, 2000)
+
+        return () => clearInterval(interval)
+    }, [images.length])
+
   return (
     <section className="min-h-[calc(100vh-73px)] bg-[#FAF8FB]">
       <div className="mx-auto flex max-w-6xl flex-col-reverse items-center gap-10 px-6 py-12 md:flex-row md:justify-between md:gap-12 md:px-10 md:py-20">
@@ -26,14 +42,18 @@ const Cover = () => {
           </button>
         </div>
 
-        {/* Cover Illustration */}
-        <div className="w-full max-w-md md:w-[48%] md:max-w-none">
-          <img
-            src="/Component 1.png"
-            alt="TaskDuty task management illustration"
-            className="w-full"
-          />
-        </div>
+        <div className="relative w-90 h-90">
+            {images.map((image, index) => (
+              <img
+                key={image}
+                src={image}
+                alt=""
+                className={`absolute inset-0 w-90 h-90 object-contain transition-opacity duration-1000 ease-in-out ${
+                  currentImage === index ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
+          </div>
 
       </div>
     </section>
