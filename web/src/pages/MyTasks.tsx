@@ -79,13 +79,7 @@ const MyTasks = () => {
                 />
               ))
             )}
-             <button>
-            <Link to="#My tasks">
-
-
-             Back to top
-            </Link>
-          </button>
+             
           </div>
           
         </div>
