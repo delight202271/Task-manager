@@ -1,5 +1,5 @@
 import { z } from "zod";
-
+ // Validation schemas for task-related operations
 const createTaskSchema = z.object({
   title: z.string().trim().min(1),
   description: z.string().trim().min(1),
@@ -9,7 +9,7 @@ const createTaskSchema = z.object({
   category: z.string().trim().min(1),
 completed: z.boolean().default(false),
 });
-
+// Validation schema for updating a task
 const updateTaskSchema = z.object({
   title: z.string().trim().min(1),
   description: z.string().trim().min(1),
@@ -19,7 +19,8 @@ const updateTaskSchema = z.object({
   category: z.string().trim().min(1),
   completed: z.boolean(),
 });
-
+ 
+// Validation schema for task ID
 const taskIdSchema = z.string().regex(
   /^[a-f\d]{24}$/i,
   "Invalid task ID"

@@ -16,8 +16,6 @@ app.use(express.json());
 app.use ("/tasks",taskRoutes)
 app.use("/auth", routes);
 
-
-
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
