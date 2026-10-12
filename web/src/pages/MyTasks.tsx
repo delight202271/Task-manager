@@ -94,7 +94,7 @@ const MyTasks = () => {
               onChange={(event) => setSearchQuery(event.target.value)}
               placeholder="Search your tasks..."
               aria-label="Search tasks"
-              className="w-full rounded-3xl border border-gray-200 bg-white py-3 pl-12 pr-12 text-gray-900 outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+              className="w-full rounded-2xl border border-gray-200 bg-white py-3 pl-12 pr-12 text-gray-900 outline-none transition focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
             />
 
             {searchQuery && (
