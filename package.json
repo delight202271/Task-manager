@@ -1,8 +1,12 @@
 {
+  "scripts": {
+    "dev": "concurrently -n API,WEB -c blue,green \"npm run dev --prefix api\" \"npm run dev --prefix web\""
+  },
   "dependencies": {
     "cors": "^2.8.6"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19"
+    "@types/cors": "^2.8.19",
+    "concurrently": "^10.0.6"
   }
 }

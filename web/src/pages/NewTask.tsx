@@ -1,6 +1,6 @@
-
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { ChevronLeft } from "lucide-react";
 
 const NewTask = () => {
   const navigate = useNavigate();
@@ -10,7 +10,6 @@ const NewTask = () => {
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
 
-  // Stores validation error messages
   const [errors, setErrors] = useState({
     title: "",
     description: "",
@@ -22,7 +21,6 @@ const NewTask = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Reset previous errors
     setErrors({
       title: "",
       description: "",
@@ -56,7 +54,7 @@ const NewTask = () => {
       newErrors.category = "Please select a category";
     }
 
-    // If there are validation errors, show them and stop
+    // Stop submission if validation fails
     if (
       newErrors.title ||
       newErrors.description ||
@@ -68,8 +66,8 @@ const NewTask = () => {
     }
 
     const taskData = {
-      title,
-      description,
+      title: title.trim(),
+      description: description.trim(),
       dueDate,
       category,
       completed: false,
@@ -86,7 +84,6 @@ const NewTask = () => {
 
       const data = await response.json();
 
-      // Backend validation error
       if (!response.ok) {
         setErrors((previous) => ({
           ...previous,
@@ -96,7 +93,7 @@ const NewTask = () => {
         return;
       }
 
-      // Task created successfully
+      // Navigate to All Tasks after successful creation
       navigate("/all-tasks");
     } catch (error) {
       console.error("Error creating task:", error);
@@ -109,28 +106,40 @@ const NewTask = () => {
   };
 
   return (
-    <main className="min-h-[80vh] bg-gray-50 py-10">
-      <div className="mx-auto w-11/12 max-w-3xl">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Create New Task
-          </h1>
+    <main className="min-h-[80vh] bg-gray-50 py-6 sm:py-8">
+      <div className="mx-auto w-11/12 max-w-2xl">
+        {/* Heading with back arrow */}
+        <div className="mb-6">
+          <div className="flex items-center gap-1">
+            <Link
+              to="/all-tasks"
+              aria-label="Back to all tasks"
+              title="Back to all tasks"
+              className="inline-flex items-center justify-center text-[#292929] transition-colors hover:text-purple-600"
+            >
+              <ChevronLeft size={26} strokeWidth={2} />
+            </Link>
 
-          <p className="mt-2 text-gray-500">
-            Add a new task and keep track of what needs to be done.
-          </p>
+            <h1 className="text-2xl font-semibold text-[#292929]">
+             Create New Task
+            </h1>
+          </div>
         </div>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        {/* Form container */}
+        <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
           <form onSubmit={handleSubmit}>
             {/* General Error */}
             {errors.general && (
-              <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+              <div
+                role="alert"
+                className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600"
+              >
                 {errors.general}
               </div>
             )}
 
-            {/* Title */}
+            {/* Task Title */}
             <div>
               <label
                 htmlFor="title"
@@ -146,20 +155,22 @@ const NewTask = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Complete React assignment"
-                className={`mt-2 w-full rounded-lg border px-4 py-3 outline-none ${
+                className={`mt-2 w-full rounded-lg border px-4 py-3 outline-none transition-colors ${
                   errors.title
-                    ? "border-red-500"
-                    : "border-gray-300 focus:border-gray-900"
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:border-purple-600"
                 }`}
               />
 
               {errors.title && (
-                <p className="mt-1 text-sm text-red-500">{errors.title}</p>
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.title}
+                </p>
               )}
             </div>
 
             {/* Description */}
-            <div className="mt-6">
+            <div className="mt-5">
               <label
                 htmlFor="description"
                 className="block text-sm font-medium text-gray-700"
@@ -172,12 +183,12 @@ const NewTask = () => {
                 name="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                rows={5}
+                rows={4}
                 placeholder="Describe what needs to be done..."
-                className={`mt-2 w-full rounded-lg border px-4 py-3 outline-none ${
+                className={`mt-2 w-full resize-y rounded-lg border px-4 py-3 outline-none transition-colors ${
                   errors.description
-                    ? "border-red-500"
-                    : "border-gray-300 focus:border-gray-900"
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:border-purple-600"
                 }`}
               />
 
@@ -189,7 +200,7 @@ const NewTask = () => {
             </div>
 
             {/* Due Date */}
-            <div className="mt-6">
+            <div className="mt-5">
               <label
                 htmlFor="dueDate"
                 className="block text-sm font-medium text-gray-700"
@@ -203,20 +214,22 @@ const NewTask = () => {
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className={`mt-2 w-full rounded-lg border px-4 py-3 outline-none ${
+                className={`mt-2 w-full rounded-lg border bg-white px-4 py-3 outline-none transition-colors ${
                   errors.dueDate
-                    ? "border-red-500"
-                    : "border-gray-300 focus:border-gray-900"
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:border-purple-600"
                 }`}
               />
 
               {errors.dueDate && (
-                <p className="mt-1 text-sm text-red-500">{errors.dueDate}</p>
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.dueDate}
+                </p>
               )}
             </div>
 
             {/* Category */}
-            <div className="mt-6">
+            <div className="mt-5">
               <label
                 htmlFor="category"
                 className="block text-sm font-medium text-gray-700"
@@ -229,10 +242,10 @@ const NewTask = () => {
                 name="category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className={`mt-2 w-full rounded-lg border bg-white px-4 py-3 outline-none ${
+                className={`mt-2 w-full rounded-lg border bg-white px-4 py-3 outline-none transition-colors ${
                   errors.category
-                    ? "border-red-500"
-                    : "border-gray-300 focus:border-gray-900"
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:border-purple-600"
                 }`}
               >
                 <option value="">Select category</option>
@@ -248,23 +261,24 @@ const NewTask = () => {
               )}
             </div>
 
-            {/* Submit */}
-            <div className="mt-8">
+            {/* Submit Button */}
+            <div className="mt-7">
               <button
                 type="submit"
-                className="w-full rounded-lg bg-purple-600 px-4 py-3 font-medium text-white transition hover:bg-purple-800"
+                className="w-full cursor-pointer rounded-lg bg-purple-600 px-4 py-3 font-medium text-white transition-colors hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
                 Create Task
               </button>
             </div>
 
-            {/* Back */}
-            <div className="flex justify-center">
+            {/* Back to All Tasks */}
+            <div className="mt-5 flex justify-center">
               <Link
                 to="/all-tasks"
-                className="mb-6 inline-flex items-center justify-center rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-all duration-300 hover:text-purple-800"
+                className="inline-flex items-center gap-1 text-sm text-purple-600 transition-colors hover:text-purple-800"
               >
-                ← Back to My Tasks
+                <ChevronLeft size={16} />
+                Back to My Tasks
               </Link>
             </div>
           </form>
@@ -275,4 +289,3 @@ const NewTask = () => {
 };
 
 export default NewTask;
-

@@ -1,7 +1,7 @@
 import TaskCard from "../components/TaskCard";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Search, X } from "lucide-react";
+import { Search, X, ArrowUp } from "lucide-react";
 
 type Task = {
   _id: string;
@@ -49,7 +49,6 @@ const MyTasks = () => {
   };
 
   // Filter tasks using the search input.
-  // Search checks the task title, description, and category.
   const filteredTasks = tasks.filter((task) => {
     const query = searchQuery.trim().toLowerCase();
 
@@ -59,6 +58,14 @@ const MyTasks = () => {
       task.category.toLowerCase().includes(query)
     );
   });
+
+  // Scroll smoothly to the top of the page.
+  const handleBackToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <main className="min-h-[80vh] py-10">
@@ -76,7 +83,7 @@ const MyTasks = () => {
           </div>
 
           <Link
-            to="/new-tasks"
+            to="/new-task"
             className="w-fit rounded-lg bg-white px-5 py-3 font-semibold text-purple-500 transition-all duration-300 hover:text-purple-700"
           >
             + Add New Task
@@ -171,6 +178,17 @@ const MyTasks = () => {
           </div>
         </div>
       </div>
+
+      {/* Back to Top Button */}
+      <button
+        type="button"
+        onClick={handleBackToTop}
+        aria-label="Back to top"
+        title="Back to top"
+        className="fixed bottom-6 right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:bottom-8 sm:right-8"
+      >
+        <ArrowUp size={22} strokeWidth={2.5} />
+      </button>
     </main>
   );
 };
