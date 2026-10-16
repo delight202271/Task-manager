@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
@@ -29,7 +30,7 @@ const EditTask = () => {
     const fetchTask = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/tasks/${id}`
+          `${API_URL}/tasks/${id}`
         );
 
         const data = await response.json();
@@ -93,7 +94,7 @@ const EditTask = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/tasks/${id}`,
+        `${API_URL}/tasks/${id}`,
         {
           method: "PUT",
           headers: {

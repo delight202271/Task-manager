@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import TaskCard from "../components/TaskCard";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -21,7 +22,7 @@ const MyTasks = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch("http://localhost:3000/tasks");
+        const response = await fetch(`${API_URL}/tasks`);
 
         if (!response.ok) {
           throw new Error("Failed to load tasks");

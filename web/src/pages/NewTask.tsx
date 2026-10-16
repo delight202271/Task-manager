@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ChevronLeft } from "lucide-react";
@@ -74,7 +75,7 @@ const NewTask = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/tasks", {
+      const response = await fetch(`${API_URL}/tasks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

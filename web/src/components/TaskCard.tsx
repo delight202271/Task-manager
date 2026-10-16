@@ -1,4 +1,4 @@
-
+import API_URL from "../config";
 import { Trash2, SquarePen, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -26,7 +26,7 @@ const TaskCard = ({
   const [isCompleted, setIsCompleted] = useState(completed);
 
   const handleDelete = async () => {
-    const response = await fetch(`http://localhost:3000/tasks/${_id}`, {
+    const response = await fetch(`${API_URL}/tasks/${_id}`, {
       method: "DELETE",
     });
 
@@ -42,7 +42,7 @@ const TaskCard = ({
 
   const handleComplete = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/tasks/${_id}`, {
+      const response = await fetch(`${API_URL}/tasks/${_id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
